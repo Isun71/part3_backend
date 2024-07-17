@@ -1,0 +1,1 @@
+md page for check git connection
