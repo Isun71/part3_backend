@@ -1,6 +1,5 @@
 const express = require('express');
 const morgan = require('morgan');
-const cors = require('cors')
 const app = express();
 
 let persons = [
@@ -45,6 +44,8 @@ morgan.token('postData', (req) => {
   return '';
 });
 
+const cors = requre('cors')
+
 // Use Morgan middleware with custom format
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'));
 app.use(cors())
@@ -78,7 +79,7 @@ app.get('/api/persons', (request, response) => {
 
 const generateId = () => Math.floor(Math.random() * 100) + 1;
 
-app.post('/persons', (request, response) => {
+app.post('/api/persons', (request, response) => {
   const body = request.body;
 
   if (!body.name || !body.number) {
@@ -104,7 +105,7 @@ app.post('/persons', (request, response) => {
   response.json(person);
 });
 
-app.get('/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id);
   const person = persons.find(person => person.id === id);
   if (person) {
@@ -114,7 +115,7 @@ app.get('/persons/:id', (request, response) => {
   }
 });
 
-app.delete('/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id);
   persons = persons.filter(person => person.id !== id);
 
