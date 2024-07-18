@@ -44,11 +44,8 @@ morgan.token('postData', (req) => {
   return '';
 });
 
-const cors = requre('cors')
-
 // Use Morgan middleware with custom format
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'));
-app.use(cors())
 
 app.use(express.json());
 app.use(requestLogger);
@@ -73,13 +70,13 @@ app.get('/info', (request, response) => {
   response.send(responseText);
 });
 
-app.get('/api/persons', (request, response) => {
+app.get('/persons', (request, response) => {
   response.json(persons);
 });
 
 const generateId = () => Math.floor(Math.random() * 100) + 1;
 
-app.post('/api/persons', (request, response) => {
+app.post('/persons', (request, response) => {
   const body = request.body;
 
   if (!body.name || !body.number) {
@@ -105,7 +102,7 @@ app.post('/api/persons', (request, response) => {
   response.json(person);
 });
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/persons/:id', (request, response) => {
   const id = Number(request.params.id);
   const person = persons.find(person => person.id === id);
   if (person) {
@@ -115,7 +112,7 @@ app.get('/api/persons/:id', (request, response) => {
   }
 });
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/persons/:id', (request, response) => {
   const id = Number(request.params.id);
   persons = persons.filter(person => person.id !== id);
 
@@ -124,7 +121,7 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.use(unknownEndpoint);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
