@@ -1,50 +1,11 @@
+require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
 
-const mongoose = require('mongoose')
+const Person = require('./models/phone')
 
-const password = process.argv[2]
-
-// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
-// const url =
-//   `mongodb+srv://bmaron:${password}@fullstack-cluster.uol77bl.mongodb.net/
-// phonebookApp?retryWrites=true&w=majority&appName=fullstack-cluster`
-
-const url = process.env.MONGODB_URI
-
-mongoose.set('strictQuery',false)
-mongoose.connect(url)
-
-const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
-})
-
-const Person = mongoose.model('Person', personSchema)
-
-let persons = [
-  { 
-    id: 1,
-    name: "Arto Hellas", 
-    number: "040-123456"
-  },
-  { 
-    id: 2,
-    name: "Ada Lovelace", 
-    number: "39-44-5323523"
-  },
-  { 
-    id: 3,
-    name: "Dan Abramov", 
-    number: "12-43-234345"
-  },
-  { 
-    id: 4,
-    name: "Mary Poppendieck", 
-    number: "39-23-6423122"
-  }
-];
+let persons = [];
 
 app.use(express.static('dist'))
 
@@ -91,14 +52,20 @@ app.get('/info', (request, response) => {
   response.send(responseText);
 });
 
-app.get('/persons', (request, response) => {
-  response.json(persons);
+app.get('/api/persons', (request, response) => {
+  Person.find({}).then(people => {
+    response.json(people);
+  })
 });
 
 const generateId = () => Math.floor(Math.random() * 100) + 1;
 
-app.post('/persons', (request, response) => {
+app.post('/api/persons', (request, response) => {
   const body = request.body;
+
+  if (body.content === undefined) {
+    return response.status(400).json({ error: 'content missing'})
+  }
 
   if (!body.name || !body.number) {
     return response.status(400).json({ 
@@ -106,34 +73,43 @@ app.post('/persons', (request, response) => {
     });
   } 
 
-  if (persons.map(person => person.name).includes(body.name)) {
-    return response.status(400).json({ 
-      error: 'name must be unique' 
-    });
-  }
+  // * Old version for checking the name is unique:
+  // if (persons.map(person => person.name).includes(body.name)) {
+  //   return response.status(400).json({ 
+  //     error: 'name must be unique' 
+  //   });
+  // }
 
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
     id: generateId(),
-  };
+  })
 
-  persons = persons.concat(person);
+  // Old version for posting:
+  // persons = persons.concat(person);
+  // response.json(person);
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
 
-  response.json(person);
 });
 
-app.get('/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find(person => person.id === id);
-  if (person) {
-    response.json(person);
-  } else {
-    response.status(404).end();
-  }
+app.get('/api/persons/:id', (request, response) => {
+  //* Old version for patching single data:
+  // const id = Number(request.params.id);
+  // const person = persons.find(person => person.id === id);
+  // if (person) {
+  //   response.json(person);
+  // } else {
+  //   response.status(404).end();
+  // }
+  Person.findById(request.params.id).then(person => {
+    response.json(person)
+  })
 });
 
-app.delete('/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id);
   persons = persons.filter(person => person.id !== id);
 
@@ -142,7 +118,7 @@ app.delete('/persons/:id', (request, response) => {
 
 app.use(unknownEndpoint);
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -26,6 +26,7 @@ if (process.argv.length === 3) {
     console.log('phonebook:');
     result.forEach(person => {
       console.log(`${person.name} ${person.number}`);
+      console.log(person);
     });
     mongoose.connection.close();
   });
