@@ -63,15 +63,15 @@ const generateId = () => Math.floor(Math.random() * 100) + 1;
 app.post('/api/persons', (request, response) => {
   const body = request.body;
 
-  if (body.content === undefined) {
-    return response.status(400).json({ error: 'content missing'})
-  }
+  // if (body.content === undefined) {
+  //   return response.status(400).json({ error: 'content missing'})
+  // }
 
-  // if (!body.name || !body.number) {
-  //   return response.status(400).json({ 
-  //     error: 'name or number (possibly both) is missing' 
-  //   });
-  // } 
+  if (!body.name || !body.number) {
+    return response.status(400).json({ 
+      error: 'name or number (possibly both) is missing' 
+    });
+  } 
 
   // * Old version for checking the name is unique:
   // if (persons.map(person => person.name).includes(body.name)) {
