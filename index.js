@@ -104,8 +104,17 @@ app.get('/api/persons/:id', (request, response) => {
   // } else {
   //   response.status(404).end();
   // }
-  Person.findById(request.params.id).then(person => {
-    response.json(person)
+  Person.findById(request.params.id)
+  .then(person => {
+    if(person) {
+      response.json(person)  
+    } else {
+      response.status(404).end()
+    }
+  })
+  .catch(error => {
+    console.log(error);
+    response.status(400).send({ error: 'malformatted id' })
   })
 });
 
@@ -113,7 +122,6 @@ app.delete('/api/persons/:id', (request, response) => {
   //* Old delete method. New version will be implemented later.
   // const id = Number(request.params.id);
   // persons = persons.filter(person => person.id !== id);
-
   // response.status(204).end();
 });
 
