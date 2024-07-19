@@ -110,10 +110,11 @@ app.get('/api/persons/:id', (request, response) => {
 });
 
 app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter(person => person.id !== id);
+  //* Old delete method. New version will be implemented later.
+  // const id = Number(request.params.id);
+  // persons = persons.filter(person => person.id !== id);
 
-  response.status(204).end();
+  // response.status(204).end();
 });
 
 app.use(unknownEndpoint);
