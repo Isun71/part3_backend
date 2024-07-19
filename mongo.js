@@ -43,6 +43,6 @@ if (process.argv.length === 3) {
     mongoose.connection.close();
   });
 } else {
-  console.log('Invalid number of arguments. Provide password, name, and number to add an entry.');
+  console.log('Invalid number of arguments. Provide password, name, and number to add.');
   mongoose.connection.close();
 }

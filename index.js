@@ -2,6 +2,27 @@ const express = require('express');
 const morgan = require('morgan');
 const app = express();
 
+const mongoose = require('mongoose')
+
+const password = process.argv[2]
+
+// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+// const url =
+//   `mongodb+srv://bmaron:${password}@fullstack-cluster.uol77bl.mongodb.net/
+// phonebookApp?retryWrites=true&w=majority&appName=fullstack-cluster`
+
+const url = process.env.MONGODB_URI
+
+mongoose.set('strictQuery',false)
+mongoose.connect(url)
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  number: String,
+})
+
+const Person = mongoose.model('Person', personSchema)
+
 let persons = [
   { 
     id: 1,
