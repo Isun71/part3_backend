@@ -83,13 +83,13 @@ app.post('/api/persons', (request, response) => {
   const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateId(),
   })
 
   // Old version for posting:
   // persons = persons.concat(person);
   // response.json(person);
   person.save().then(savedPerson => {
+    console.log(`new person ${savedPerson.name} with ${savedPerson.number} added`);
     response.json(savedPerson)
   })
 
