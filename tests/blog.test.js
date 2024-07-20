@@ -92,3 +92,97 @@ describe('favorite blog', () => {
     })
   })
 })
+
+describe('favorite blog', () => {
+  const listWithMultipleBlogs = [
+    {
+      _id: '1',
+      title: 'Blog 1',
+      author: 'Author 1',
+      url: 'url1',
+      likes: 4
+    },
+    {
+      _id: '2',
+      title: 'Blog 2',
+      author: 'Author 2',
+      url: 'url2',
+      likes: 5
+    },
+    {
+      _id: '3',
+      title: 'Blog 3',
+      author: 'Author 3',
+      url: 'url3',
+      likes: 10
+    },
+    {
+      _id: '4',
+      title: 'Blog 4',
+      author: 'Author 3',
+      url: 'url4',
+      likes: 19
+    },
+    {
+      _id: '5',
+      title: 'Blog 5',
+      author: 'Author 3',
+      url: 'url5',
+      likes: 4
+    }
+  ]
+  test('returns the author with most blogs', () => {
+    const result = listHelper.mostBlogs(listWithMultipleBlogs)
+    assert.deepStrictEqual(result, {
+      author: 'Author 3',
+      blogs: 3
+    })
+  })
+})
+
+describe('favorite blog', () => {
+  const listWithMultipleBlogs = [
+    {
+      _id: '1',
+      title: 'Blog 1',
+      author: 'Author 1',
+      url: 'url1',
+      likes: 4
+    },
+    {
+      _id: '2',
+      title: 'Blog 2',
+      author: 'Author 2',
+      url: 'url2',
+      likes: 5
+    },
+    {
+      _id: '3',
+      title: 'Blog 3',
+      author: 'Author 3',
+      url: 'url3',
+      likes: 10
+    },
+    {
+      _id: '4',
+      title: 'Blog 4',
+      author: 'Author 3',
+      url: 'url4',
+      likes: 19
+    },
+    {
+      _id: '5',
+      title: 'Blog 5',
+      author: 'Author 3',
+      url: 'url5',
+      likes: 4
+    }
+  ]
+  test('returns the author with most likes', () => {
+    const result = listHelper.mostLikes(listWithMultipleBlogs)
+    assert.deepStrictEqual(result, {
+      author: 'Author 3',
+      likes: 33
+    })
+  })
+})
