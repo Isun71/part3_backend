@@ -67,13 +67,6 @@ app.post('/api/persons', (request, response, next) => {
     });
   } 
 
-  // * Old version for checking the name is unique:
-  // if (persons.map(person => person.name).includes(body.name)) {
-  //   return response.status(400).json({ 
-  //     error: 'name must be unique' 
-  //   });
-  // }
-
   const person = new Person({
     name: body.name,
     number: body.number,
@@ -88,14 +81,6 @@ app.post('/api/persons', (request, response, next) => {
 });
 
 app.get('/api/persons/:id', (request, response, next) => {
-  //* Old version for patching single data:
-  // const id = Number(request.params.id);
-  // const person = persons.find(person => person.id === id);
-  // if (person) {
-  //   response.json(person);
-  // } else {
-  //   response.status(404).end();
-  // }
   Person.findById(request.params.id)
   .then(person => {
     if (person) {
@@ -108,10 +93,6 @@ app.get('/api/persons/:id', (request, response, next) => {
 });
 
 app.delete('/api/persons/:id', (request, response, next) => {
-  //* Old delete method. New version will be implemented later.
-  // const id = Number(request.params.id);
-  // persons = persons.filter(person => person.id !== id);
-  // response.status(204).end();
   Person.findByIdAndDelete(request.params.id)
     .then(result => {
       response.status(204).end()
