@@ -42,7 +42,7 @@ app.get('/', (request, response) => {
 
 app.get('/info', (request, response) => {
   const currentTime = new Date();
-  const numOfPeople = persons.length;
+  const numOfPeople = Person.length;
 
   const responseText = `
     <p>Phonebook has info for ${numOfPeople} people</p>
@@ -57,8 +57,6 @@ app.get('/api/persons', (request, response) => {
     response.json(people);
   })
 });
-
-const generateId = () => Math.floor(Math.random() * 100) + 1;
 
 app.post('/api/persons', (request, response) => {
   const body = request.body;
