@@ -1,4 +1,3 @@
-// will be trimmed to:
 const app = require('./app')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
