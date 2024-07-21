@@ -63,8 +63,9 @@ test('a valid blog can be added ', async () => {
   assert(titles.includes('adding valid blog'))
 })
 
-test('blog without sections is not added', async () => {
+test('blog without url or/and title is not added', async () => {
   const newBlog = {
+    author: "forget to add url or/and title",
     likes: 1
   }
 
@@ -105,6 +106,33 @@ test('a blog can be deleted', async () => {
   assert(!titles.includes(blogToDelete.title))
 
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
+})
+
+test('_id should be transformed to id', async () => {
+  const response = await api.get('/api/blogs')
+  const blog = response.body[0]
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  assert.strictEqual(blog._id, undefined)
+  assert(blogsAtEnd.map(blog => blog.id).includes(blog.id))
+})
+
+test('blog without likes can be added', async () => {
+  const newBlog = {
+    title: "no default likes",
+    author: "mister nolikes",
+    url: "no.likes.url"
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+
+  const response = await api.get('/api/blogs')
+
+  assert.strictEqual(response.body.length, helper.initialBlogs.length + 1)
 })
 
 after(async () => {
