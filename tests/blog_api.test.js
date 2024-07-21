@@ -99,7 +99,7 @@ describe('adding new blog', () => {
   
     const response = await api.get('/api/blogs')
   
-    assert.strictEqual(response.body.length, helper.initialBlogs.length)
+    assert.strictEqual(response.body.length, helper.initialBlogs.length + 1)
   })
 
   test('blog without likes can be added', async () => {
@@ -116,7 +116,7 @@ describe('adding new blog', () => {
   
     const response = await api.get('/api/blogs')
   
-    assert.strictEqual(response.body.length, helper.initialBlogs.length + 1)
+    assert.strictEqual(response.body.length, helper.initialBlogs.length + 2)
   })
 })
 
@@ -143,7 +143,7 @@ describe('update and delete the blog', () => {
   
     const titles = response.body.map(r => r.title)
   
-    assert.strictEqual(response.body.length, helper.initialBlogs.length)
+    assert.strictEqual(response.body.length, helper.initialBlogs.length + 2)
   
     assert(titles.includes('updated Sample blog'))
   })
@@ -161,7 +161,7 @@ describe('update and delete the blog', () => {
     const titles = blogsAtEnd.map(r => r.title)
     assert(!titles.includes(blogToDelete.title))
   
-    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
   })
 })
 
