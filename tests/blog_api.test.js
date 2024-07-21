@@ -222,5 +222,6 @@ describe('when there is initially one user in db', () => {
 })
 
 after(async () => {
+  await User.deleteMany({})
   await mongoose.connection.close()
 })
