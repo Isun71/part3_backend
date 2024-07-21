@@ -219,6 +219,27 @@ describe('when there is initially one user in db', () => {
 
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
+
+  test('creation fails with proper status code and message if username or password is too short', async () => {
+    const usersAtStart = await User.find({})
+  
+    const newUser = {
+      username: 'ro',
+      name: 'Superuser',
+      password: 'pw',
+    }
+  
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+  
+    expect(result.body.error).toContain('username and password should be at least 3 characters long')
+  
+    const usersAtEnd = await User.find({})
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
 })
 
 after(async () => {
