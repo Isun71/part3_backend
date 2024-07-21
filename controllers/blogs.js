@@ -13,7 +13,7 @@ const getTokenFrom = request => {
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
-    .find({}).populate('blog', { username: 1, name: 1 })
+    .find({}).populate('blogs', { username: 1, name: 1 })
 
   response.json(blogs)
 })
