@@ -31,8 +31,8 @@ const errorHandler = (error, request, response, next) => {
 
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
+  if (authorization && authorization.startsWith('bearer ')) {
+    return authorization.replace('bearer ', '')
   }
   return null
 }
