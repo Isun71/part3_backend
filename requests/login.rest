@@ -1,7 +1,0 @@
-post https://part3-backend-gdxa.onrender.com/api/login
-Content-Type: application/json
-
-{
-  "username": "cat",
-  "password": "meow"
-}
