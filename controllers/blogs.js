@@ -16,7 +16,7 @@ router.post('/', userExtractor, async (request, response) => {
 
   if (!user ) {
     return response.status(403).json({ error: 'user missing' })
-  }  
+  }
 
   if (!blog.title || !blog.url ) {
     return response.status(400).json({ error: 'title or url missing' })
